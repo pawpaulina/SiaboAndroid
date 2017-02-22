@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Nama "
+                android:id="@+id/textView3"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:paddingTop="5dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="5dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginBottom="5dp"
+                android:textColorHint="#cbc8c8"
+                android:textSize="8pt"
+                android:layout_marginTop="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Username "
+                android:id="@+id/textView4"
+                android:layout_below="@+id/textView3"
+                android:layout_alignParentStart="true"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:layout_marginLeft="35dp"
+                android:paddingBottom="5dp"
+                android:layout_marginBottom="5dp"
+                android:textColorHint="#cbc8c8"
+                android:textSize="8pt"
+                android:layout_marginTop="7dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="E-mail "
+                android:id="@+id/textView5"
+                android:layout_below="@+id/textView4"
+                android:layout_alignParentStart="true"
+                android:paddingTop="5dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="5dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginBottom="5dp"
+                android:textColorHint="#cbc8c8"
+                android:textSize="8pt"
+                android:layout_marginTop="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Phone "
+                android:id="@+id/textView6"
+                android:paddingTop="5dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="5dp"
+                android:textColorHint="#cbc8c8"
+                android:textSize="8pt"
+                android:layout_below="@+id/textView5"
+                android:layout_alignStart="@+id/textView7"
+                android:layout_marginTop="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Cabang "
+                android:id="@+id/textView7"
+                android:layout_below="@+id/textView6"
+                android:layout_alignParentStart="true"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginBottom="5dp"
+                android:textColorHint="#cbc8c8"
+                android:textSize="8pt"
+                android:layout_marginTop="5dp"
+                android:paddingRight="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Role "
+                android:id="@+id/textView8"
+                android:layout_below="@+id/textView7"
+                android:layout_alignParentStart="true"
+                android:paddingRight="5dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:layout_marginLeft="35dp"
+                android:textColorHint="#cbc8c8"
+                android:textSize="8pt"
+                android:textIsSelectable="false"
+                android:layout_marginTop="7dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/txtName"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="9pt"
+                android:textColor="#000000"
+                android:layout_alignTop="@+id/textView3"
+                android:layout_alignStart="@+id/txtUname"
+                android:layout_alignBottom="@+id/textView3"
+                android:paddingTop="2dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black"
+                android:layout_marginRight="20dp"
+                android:layout_alignBottom="@+id/txtName"
+                android:layout_alignStart="@+id/txtName" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtUname"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:inputType="none"
+                android:textSize="9pt"
+                android:textColor="#000000"
+                android:layout_alignTop="@+id/textView4"
+                android:layout_toEndOf="@+id/textView4"
+                android:paddingTop="2dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black"
+                android:layout_marginRight="20dp"
+                android:layout_below="@+id/txtUname"
+                android:layout_alignStart="@+id/txtUname" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtEmail"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="9pt"
+                android:textColor="#000000"
+                android:layout_alignTop="@+id/textView5"
+                android:layout_toEndOf="@+id/textView4"
+                android:paddingTop="2dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black"
+                android:layout_marginRight="20dp"
+                android:layout_below="@+id/txtEmail"
+                android:layout_toEndOf="@+id/textView4" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtPhone"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="9pt"
+                android:textColor="#000000"
+                android:layout_alignTop="@+id/textView6"
+                android:layout_alignStart="@+id/txtEmail"
+                android:paddingTop="2dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black"
+                android:layout_marginRight="20dp"
+                android:layout_alignBottom="@+id/txtPhone"
+                android:layout_toEndOf="@+id/textView4" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtCabang"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="9pt"
+                android:layout_alignTop="@+id/textView7"
+                android:layout_alignStart="@+id/txtPhone"
+                android:textColor="#000000"
+                android:paddingTop="2dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black"
+                android:layout_marginRight="20dp"
+                android:layout_alignBottom="@+id/txtCabang"
+                android:layout_alignStart="@+id/txtCabang" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtRole"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="9pt"
+                android:layout_alignTop="@+id/textView8"
+                android:layout_alignStart="@+id/txtCabang"
+                android:textColor="#000000"
+                android:paddingTop="2dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black"
+                android:layout_marginRight="20dp"
+                android:layout_alignBottom="@+id/txtRole"
+                android:layout_alignStart="@+id/txtRole" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lihat Kalender"
+                android:id="@+id/btnKalender"
+                android:background="#ffffff"
+                android:paddingLeft="15dp"
+                android:paddingTop="15dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="15dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="30dp"
+                android:src="@drawable/today24yellow"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lihat Peta"
+                android:id="@+id/btnMap"
+                android:background="#ffffff"
+                android:paddingLeft="15dp"
+                android:paddingTop="15dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="15dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="30dp"
+                android:src="@drawable/map524"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>
