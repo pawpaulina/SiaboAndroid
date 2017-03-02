@@ -2,6 +2,7 @@ package itsd1.indogrosir.com.siabo.activity;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -14,6 +15,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,23 +59,24 @@ import retrofit2.Response;
 /**
  * Created by Paulina on 1/27/2017.
  */
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DirectionFinderListener,
+public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback, DirectionFinderListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener
 {
 
     private GoogleMap mMap;
-    String latitude;
-    String longitude;
+
+    LatLng posisiToko;
+
     private int PROXIMITY_RADIUS = 10000;
     Location mLastLocation;
-    Marker mCurrLocationMarker;
+    Marker mCurrLocationMarker, mToko;
     LocationRequest mLocationRequest;
     GoogleApiClient mGoogleApiClient;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private Bundle extras;
-    private String token="";
+    private String token="", latitude = "", longitude = "";;
     private List<Marker> originMarkers = new ArrayList<>();
     private List<Marker> destinationMarkers = new ArrayList<>();
     private List<Polyline> polylinePaths = new ArrayList<>();
@@ -107,6 +110,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         extras = new Bundle();
         extras = getIntent().getExtras();
         token = extras.getString("token");
+        latitude = extras.getString("latitude");
+        longitude = extras.getString("longitude");
+        posisiToko =new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+
         btnRute = (Button) findViewById(R.id.btnRute);
         btnRute.setOnClickListener(new View.OnClickListener()
         {
@@ -117,6 +124,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        Marker marker = mMap.addMarker(new MarkerOptions()
+//                .position(posisiToko)
+//                .title("")
+//                .snippet("Latitude : "+latitude+", Longitude : "+longitude)
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.placeholder)));
+//    }
 
     private void sendRoute(Location location)
     {
@@ -344,5 +361,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             polylinePaths.add(mMap.addPolyline(polylineOptions));
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        return false;
     }
 }

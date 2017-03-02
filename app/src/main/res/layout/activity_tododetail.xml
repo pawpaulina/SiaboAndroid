@@ -5,7 +5,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="0.4">
 
         <TextView
@@ -32,14 +32,16 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Ket"
             android:id="@+id/txtKet"
-            android:layout_marginLeft="80dp"
-            android:layout_marginTop="15dp" />
+            android:layout_below="@+id/txtDeskripsi"
+            android:layout_alignStart="@+id/txtDeskripsi"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="60dp" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.8">
+        android:layout_height="wrap_content"
+        android:layout_weight="0.7">
 
         <ImageButton
             android:layout_width="wrap_content"

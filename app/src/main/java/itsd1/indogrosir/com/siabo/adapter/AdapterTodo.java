@@ -2,6 +2,8 @@ package itsd1.indogrosir.com.siabo.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import java.util.List;
 import itsd1.indogrosir.com.siabo.R;
 import itsd1.indogrosir.com.siabo.activity.KalenderDetails;
 import itsd1.indogrosir.com.siabo.activity.MainActivity;
+import itsd1.indogrosir.com.siabo.activity.ToDoDetails;
 import itsd1.indogrosir.com.siabo.models.ToDo;
 
 /**
@@ -67,14 +70,17 @@ public class AdapterTodo extends RecyclerView.Adapter<AdapterTodo.ViewHolder> {
             txtDeskripsi = (TextView) itemView.findViewById(R.id.txtDeskripsi);
 
             itemView.setOnClickListener(this);
-            txtJudul.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v)
         {
-            Log.d("Log : ",judul);
-            Toast.makeText(context, "click" + judul, Toast.LENGTH_LONG).show();
+            Bundle b = new Bundle();
+            b.putString("judul", txtJudul.getText().toString());
+            b.putString("desc", txtDeskripsi.getText().toString());
+            Intent i = new Intent(v.getContext(), ToDoDetails.class);
+            i.putExtras(b);
+            v.getContext().startActivity(i);
         }
     }
 

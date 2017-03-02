@@ -60,8 +60,18 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="0.5">
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/TDLView"
+                android:scrollbars="vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp">
+
+            </android.support.v7.widget.RecyclerView>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -70,8 +80,7 @@
                 android:text="latitude "
                 android:id="@+id/txtlatitude"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
-                android:visibility="invisible" />
+                android:layout_alignParentStart="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -80,23 +89,8 @@
                 android:text="longitude"
                 android:id="@+id/txtlongitude"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:visibility="invisible" />
+                android:layout_alignParentEnd="true" />
 
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/TDLView"
-                android:scrollbars="vertical"
-                android:layout_alignParentTop="true"
-                android:layout_alignEnd="@+id/txtlongitude"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_alignParentLeft="false"
-                android:layout_alignWithParentIfMissing="true">
-
-            </android.support.v7.widget.RecyclerView>
         </RelativeLayout>
 
         <RelativeLayout
@@ -133,6 +127,14 @@
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
                 android:src="@drawable/map_marker224"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/txtLate"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/btnCheck" />
 
         </RelativeLayout>
     </LinearLayout>

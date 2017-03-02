@@ -1,6 +1,7 @@
 package itsd1.indogrosir.com.siabo.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -51,9 +53,9 @@ import retrofit2.Response;
 public class KalenderDetails extends AppCompatActivity
 {
     private ImageButton btnRute, btnCheck;
-    private TextView txtToko, txtTglmulai, txtJam, txtAlamat, txtLongitude, txtLatitude;
+    private TextView txtToko, txtTglmulai, txtJam, txtAlamat, txtLongitude, txtLatitude, txtLate;
     private int id_plan = 0, id_user = 0, id_todo = 0, id_store = 0;
-    private String token = "";
+    private String token = "", latitude = "", longitude = "";
     private Bundle extras;
 
     //Recyclerview
@@ -83,6 +85,7 @@ public class KalenderDetails extends AppCompatActivity
         txtAlamat = (TextView) findViewById(R.id.txtAlamat);
         txtLongitude = (TextView) findViewById(R.id.txtlongitude);
         txtLatitude = (TextView) findViewById(R.id.txtlatitude);
+        txtLate = (TextView) findViewById(R.id.txtLate);
 
         recyclerView = (RecyclerView) findViewById(R.id.TDLView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -92,14 +95,19 @@ public class KalenderDetails extends AppCompatActivity
                 {
                     @Override public void onItemClick(View view, int position)
                     {
-                        Bundle b = new Bundle();
-                        b.putInt("id_user", id_user);
-                        b.putString("token", token);
-                        b.putInt("id_plan", id_plan);
-                        b.putInt("id_todo", id_todo);
-                        Intent i = new Intent(getApplicationContext(), ToDoDetails.class);
-                        i.putExtras(b);
-                        startActivity(i);
+//
+//                        Bundle b = new Bundle();
+//                        b.putInt("id_user", id_user);
+//                        b.putString("token", token);
+//                        b.putInt("id_plan", id_plan);
+//                        b.putInt("id_todo", id_todo);
+//
+//                        recyclerView.getLayoutManager().scrollToPosition(position);
+//                        b.putInt("position", position);
+//                        Intent i = new Intent(getApplicationContext(), ToDoDetails.class);
+//                        i.putExtras(b);
+//                        Toast.makeText(getApplicationContext(), "pos" + position, Toast.LENGTH_LONG).show();
+//                        startActivity(i);
                     }
 
                     @Override public void onLongItemClick(View view, int position) {}
@@ -119,13 +127,15 @@ public class KalenderDetails extends AppCompatActivity
             {
                 Bundle b = new Bundle();
                 b.putString("token", token);
+                b.putString("latitude", latitude);
+                b.putString("longitude", longitude);
                 Intent i = new Intent(getApplicationContext(), MapsActivity.class);
                 i.putExtras(b);
                 startActivity(i);
             }
         });
         getDetailPlan();
-        getDetailTugas();
+        getTugas();
     }
 
     void getDetailPlan()
@@ -139,24 +149,49 @@ public class KalenderDetails extends AppCompatActivity
             @Override
             public void onResponse(Call<PlanDet> call, Response<PlanDet> response)
             {
-                // ambil tgl hari ini
+                Date timeStart = null, timeLimit = null, timeStamp = null;
+                /***** ambil tgl hari ini*****/
                 String dateStamp = new SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime());
-                String timeStamp = new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
+                /*****ambil jam hari ini*****/
+                String now = getCurrentTimeStamp();
+                /*****parsing tanggal dan jam*****/
                 SimpleDateFormat date = new SimpleDateFormat("dd-MMM-yyyy");
+                SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+                /*****ambil value jam mulai dan jam selesai dari jadwal*****/
+                String mulai = response.body().getPlanDetail().getJam_mulai();
+                String limit = response.body().getPlanDetail().getJam_selesai();
+
                 txtToko.setText(response.body().getPlanDetail().getStore_name() + "-" + response.body().getPlanDetail().getStore_code());
                 txtToko.setTypeface(font_Robotomed);
                 id_store = response.body().getPlanDetail().getId_store();
                 txtAlamat.setText(response.body().getPlanDetail().getAddress_s());
                 txtAlamat.setTypeface(font_Robotomed);
+
                 String tglm = date.format(response.body().getPlanDetail().getTgl_plan_mulai());
+                try
+                {
+                    timeStart = time.parse(mulai);
+                    timeLimit = time.parse(limit);
+                    timeStamp = time.parse(now);
+                }
+                catch (ParseException e)
+                {
+                    e.printStackTrace();
+                }
+
                 txtTglmulai.setText(tglm);
                 txtTglmulai.setTypeface(font_Robotomed);
                 txtJam.setText(response.body().getPlanDetail().getJam_mulai() + "-" + response.body().getPlanDetail().getJam_selesai());
                 txtJam.setTypeface(font_Robotomed);
                 txtLatitude.setText(response.body().getPlanDetail().getLatitude_s());
                 txtLongitude.setText(response.body().getPlanDetail().getLongitude_s());
-                if(tglm.equalsIgnoreCase(dateStamp))
+                latitude = response.body().getPlanDetail().getLatitude_s();
+                longitude = response.body().getPlanDetail().getLongitude_s();
+                if(tglm.equalsIgnoreCase(dateStamp) && (timeStamp.after(timeStart) && timeStamp.before(timeLimit)))
                 {
+                    txtLate.setText("Absen");
+                    txtLate.setTypeface(font_Robotomed);
+                    txtLate.setTextColor(Color.GREEN);
                     btnCheck.setVisibility(View.VISIBLE);
                     btnCheck.setOnClickListener(new View.OnClickListener()
                     {
@@ -167,6 +202,12 @@ public class KalenderDetails extends AppCompatActivity
                         }
                     });
                 }
+                if (tglm.equalsIgnoreCase(dateStamp) && timeStamp.after(timeLimit))
+                {
+                    txtLate.setText("Terlambat absen");
+                    txtLate.setTypeface(font_Robotomed);
+                    txtLate.setTextColor(Color.RED);
+                }
             }
             @Override
             public void onFailure(Call<PlanDet> call, Throwable t)
@@ -174,6 +215,14 @@ public class KalenderDetails extends AppCompatActivity
                 Log.d("Log : ",t.toString());
             }
         });
+    }
+
+    public static String getCurrentTimeStamp()
+    {
+        SimpleDateFormat sdfDate = new SimpleDateFormat("HH:mm");
+        Date now = new Date();
+        String strDate = sdfDate.format(now);
+        return strDate;
     }
 
     public void buttonCheckin(View v, int id_store)
@@ -200,7 +249,7 @@ public class KalenderDetails extends AppCompatActivity
         });
     }
 
-    void getDetailTugas()
+    void getTugas()
     {
         RestApi apiService = ApiClient.getClient().create(RestApi.class);
         Call<ToDo> call = apiService.getTugas(id_user, id_plan, token);
@@ -212,11 +261,16 @@ public class KalenderDetails extends AppCompatActivity
             {
                 if(response.isSuccessful())
                 {
+
+//                    todolist = response.body().getTodo();
+////                    id_todo = response.body().getTodo().get(i).getId();
+//                    adapter = new AdapterTodo(todolist);
+//                    recyclerView.setAdapter(adapter);
                     for (int i = 0; i < response.body().getTodo().size(); i++)
                     {
+
                         todolist = response.body().getTodo();
                         id_todo = response.body().getTodo().get(i).getId();
-                        //todolist = new ArrayList<>(Arrays.asList(todo));
                         adapter = new AdapterTodo(todolist);
                         recyclerView.setAdapter(adapter);
                     }

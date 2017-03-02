@@ -40,4 +40,8 @@ public interface RestApi
 
     @POST("api/eks/checkin/{id_user}")
     Call<EksObject> CheckIn(@Body EksObject eks, @Query("token") String token);
+
+    @GET("api/eks/cekcheckin/{id_plan}")
+    Call<EksObject> getCekCheckin(@Path("id_user") int id_user, @Path("id_plan") int id_plan, @Path("id_todo") int id_todo, @Query("token") String token);
+
 }
