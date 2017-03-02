@@ -90,11 +90,11 @@ public class KalenderDetails extends AppCompatActivity
         recyclerView = (RecyclerView) findViewById(R.id.TDLView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getApplicationContext(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener()
-                {
-                    @Override public void onItemClick(View view, int position)
-                    {
+//        recyclerView.addOnItemTouchListener(
+//                new RecyclerItemClickListener(getApplicationContext(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener()
+//                {
+//                    @Override public void onItemClick(View view, int position)
+//                    {
 //
 //                        Bundle b = new Bundle();
 //                        b.putInt("id_user", id_user);
@@ -108,11 +108,11 @@ public class KalenderDetails extends AppCompatActivity
 //                        i.putExtras(b);
 //                        Toast.makeText(getApplicationContext(), "pos" + position, Toast.LENGTH_LONG).show();
 //                        startActivity(i);
-                    }
-
-                    @Override public void onLongItemClick(View view, int position) {}
-                })
-        );
+//                    }
+//
+//                    @Override public void onLongItemClick(View view, int position) {}
+//                })
+//        );
 
         todolist = new ArrayList<>();
 
@@ -263,7 +263,7 @@ public class KalenderDetails extends AppCompatActivity
                 {
 
 //                    todolist = response.body().getTodo();
-////                    id_todo = response.body().getTodo().get(i).getId();
+//                    id_todo = response.body().getTodo().get(i).getId();
 //                    adapter = new AdapterTodo(todolist);
 //                    recyclerView.setAdapter(adapter);
                     for (int i = 0; i < response.body().getTodo().size(); i++)
