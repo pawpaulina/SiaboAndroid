@@ -2,30 +2,18 @@ package itsd1.indogrosir.com.siabo.activity;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.Toast;
 
 import com.github.tibolte.agendacalendarview.AgendaCalendarView;
 import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.CalendarPickerController;
 import com.github.tibolte.agendacalendarview.models.DayItem;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
@@ -96,21 +84,6 @@ public class KalenderActivity extends AppCompatActivity implements CalendarPicke
 
                 Date mulai = response.body().getPlan().get(i).getTgl_plan_mulai();
                 Date selesai = response.body().getPlan().get(i).getTgl_plan_selesai();
-
-                /*//Alarm
-                alarmMgr = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-                Intent intent = new Intent(KalenderActivity.this.getApplicationContext(), AlarmReceiver.class);
-                alarmIntent = PendingIntent.getBroadcast(KalenderActivity.this.getApplicationContext(),0, intent, 0);
-                Calendar startTime = Calendar.getInstance();
-                Calendar endTime = Calendar.getInstance();
-                String jammulai = (response.body().getPlan().get(i).getJam_mulai()).substring(0,2);
-                String jamselesai = (response.body().getPlan().get(i).getJam_selesai().substring(0,2));
-                startTime.setTimeInMillis(System.currentTimeMillis());
-                startTime.set(Calendar.HOUR_OF_DAY,Integer.parseInt(jammulai));
-                endTime.setTimeInMillis(System.currentTimeMillis());
-                endTime.set(Calendar.HOUR_OF_DAY,Integer.parseInt(jamselesai));
-                alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, startTime.getTimeInMillis(), 1000 * 60 * 20, alarmIntent);
-                Toast.makeText(getApplicationContext(),jammulai + " " + jamselesai, Toast.LENGTH_LONG).show();*/
 
                 String judul = response.body().getPlan().get(i).getStore_name();
                 String jam = response.body().getPlan().get(i).getJam_mulai() + " - " + response.body().getPlan().get(i).getJam_selesai();

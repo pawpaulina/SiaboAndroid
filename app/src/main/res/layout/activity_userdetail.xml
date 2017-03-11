@@ -132,7 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/black"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="35dp"
                 android:layout_alignBottom="@+id/txtName"
                 android:layout_alignStart="@+id/txtName" />
 
@@ -152,7 +152,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/black"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="35dp"
                 android:layout_below="@+id/txtUname"
                 android:layout_alignStart="@+id/txtUname" />
 
@@ -171,7 +171,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/black"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="35dp"
                 android:layout_below="@+id/txtEmail"
                 android:layout_toEndOf="@+id/textView4" />
 
@@ -190,7 +190,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/black"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="35dp"
                 android:layout_alignBottom="@+id/txtPhone"
                 android:layout_toEndOf="@+id/textView4" />
 
@@ -209,7 +209,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/black"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="35dp"
                 android:layout_alignBottom="@+id/txtCabang"
                 android:layout_alignStart="@+id/txtCabang" />
 
@@ -228,7 +228,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/black"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="35dp"
                 android:layout_alignBottom="@+id/txtRole"
                 android:layout_alignStart="@+id/txtRole" />
 
@@ -252,22 +252,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginLeft="30dp"
-                android:src="@drawable/today24yellow"/>
+                android:src="@drawable/calendar"/>
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Lihat Peta"
-                android:id="@+id/btnMap"
-                android:background="#ffffff"
-                android:paddingLeft="15dp"
-                android:paddingTop="15dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="15dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="30dp"
-                android:src="@drawable/map524"/>
         </RelativeLayout>
     </LinearLayout>
 

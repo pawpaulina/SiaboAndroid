@@ -67,7 +67,8 @@
                 android:layout_marginBottom="46dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp" />
+                android:layout_marginRight="20dp"
+                android:background="#FFFFFF" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -81,7 +82,9 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp" />
+                android:layout_marginLeft="20dp"
+                android:autoText="false"
+                android:background="#FFFFFF" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -96,7 +99,7 @@
                 android:id="@+id/btnLogin"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:background="#fcfafa"
+                android:background="#FFFFFF"
                 android:layout_marginTop="25dp" />
         </RelativeLayout>
     </LinearLayout>

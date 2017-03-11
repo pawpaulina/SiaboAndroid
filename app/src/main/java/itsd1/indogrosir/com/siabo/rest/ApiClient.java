@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ApiClient
 {
-    public static final String BASE_URL = "http:/192.168.137.1/Siabo/public/";
+    public static final String BASE_URL = "http:/192.168.43.192/Siabo/public/";
     public static String token = "";
     private static Retrofit retrofit = null;
 
@@ -49,4 +49,28 @@ public class ApiClient
         return retrofit;
     }
 
+//    public static Retrofit getClient()
+//    {
+//        getClient(null);
+//    }
+//    public static Retrofit getClient(String url)
+//    {
+//        Gson gson = new GsonBuilder()
+//                .setLenient()
+//                .create();
+//
+//        if (url==null)
+//        {
+//            retrofit = new Retrofit.Builder()
+//                    .baseUrl(BASE_URL)
+//                    .addConverterFactory(GsonConverterFactory.create(gson))
+//                    .build();
+//        }else{
+//            retrofit = new Retrofit.Builder()
+//                    .baseUrl(url)
+//                    .addConverterFactory(GsonConverterFactory.create(gson))
+//                    .build();
+//        }
+//        return retrofit;
+//    }
 }

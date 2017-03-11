@@ -33,7 +33,7 @@ public class UserDetails extends AppCompatActivity
     private String token="";
     private int id_user=0;
     private Bundle extras;
-    private ImageButton btnKalender,btnMap;
+    private ImageButton btnKalender;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -60,20 +60,6 @@ public class UserDetails extends AppCompatActivity
                 b.putString("token", token);
                 b.putInt("id_user", id_user);
                 Intent i = new Intent(getApplicationContext(), KalenderActivity.class);
-                i.putExtras(b);
-                startActivity(i);
-            }
-        });
-        btnMap = (ImageButton) findViewById(R.id.btnMap);
-        btnMap.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Bundle b = new Bundle();
-                b.putString("token", token);
-                b.putInt("id_user", id_user);
-                Intent i = new Intent(getApplicationContext(), MapsActivity.class);
                 i.putExtras(b);
                 startActivity(i);
             }

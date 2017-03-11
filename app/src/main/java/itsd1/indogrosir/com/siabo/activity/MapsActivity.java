@@ -2,7 +2,6 @@ package itsd1.indogrosir.com.siabo.activity;
 
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -15,40 +14,37 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.directions.route.Route;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import itsd1.indogrosir.com.siabo.DirectionFinderListener;
 import itsd1.indogrosir.com.siabo.R;
-import itsd1.indogrosir.com.siabo.models.Distance;
-import itsd1.indogrosir.com.siabo.models.Duration;
 import itsd1.indogrosir.com.siabo.models.Loc;
 import itsd1.indogrosir.com.siabo.rest.ApiClient;
 import itsd1.indogrosir.com.siabo.rest.RestApi;
@@ -83,6 +79,10 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private ProgressDialog progressDialog;
     private Button btnRute;
 
+
+    private MapView mMapView;
+    Bundle saveInstanceState;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -107,13 +107,18 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
         extras = new Bundle();
         extras = getIntent().getExtras();
         token = extras.getString("token");
         latitude = extras.getString("latitude");
         longitude = extras.getString("longitude");
-        posisiToko =new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+        posisiToko = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
 
+//        if(mapFragment!=null)
+//        {
+//            onStart();
+//        }
         btnRute = (Button) findViewById(R.id.btnRute);
         btnRute.setOnClickListener(new View.OnClickListener()
         {
@@ -125,15 +130,10 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         });
     }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        Marker marker = mMap.addMarker(new MarkerOptions()
-//                .position(posisiToko)
-//                .title("")
-//                .snippet("Latitude : "+latitude+", Longitude : "+longitude)
-//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.placeholder)));
-//    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 
     private void sendRoute(Location location)
     {
@@ -183,13 +183,13 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         markerOptions.title("Current Position");
 
         // Adding colour to the marker
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.startpoint));
 
         // Adding Marker to the Map
         mCurrLocationMarker = mMap.addMarker(markerOptions);
 
         //move map camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         //mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
 
         Log.d("onLocationChanged", String.format("latitude:%s longitude:%s", latitude, longitude));
@@ -222,7 +222,15 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        Marker marker = mMap.addMarker(new MarkerOptions()
+                .position(posisiToko)
+                .title("")
+                .snippet("Latitude : "+latitude+", Longitude : "+longitude)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.endpoint)));
+        marker.showInfoWindow();
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(posisiToko, 15));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+        mMap.setMyLocationEnabled(true);
 
         //Initialize Google Play Services
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -230,7 +238,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
             {
                 buildGoogleApiClient();
-                mMap.setMyLocationEnabled(true);
             }
         }
         else
