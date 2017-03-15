@@ -38,7 +38,7 @@ public class KalenderDetails extends AppCompatActivity
     private ImageButton btnRute, btnCheck;
     private TextView txtToko, txtTglmulai, txtJam, txtAlamat, txtLongitude, txtLatitude, txtLate;
     private int id_plan = 0, id_user = 0, id_todo = 0, id_store = 0;
-    private String token = "", latitude = "", longitude = "";
+    private String token = "", latitude = "", longitude = "", namaToko = "";
     private Bundle extras;
 
     //Recyclerview
@@ -73,29 +73,6 @@ public class KalenderDetails extends AppCompatActivity
         recyclerView = (RecyclerView) findViewById(R.id.TDLView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.addOnItemTouchListener(
-//                new RecyclerItemClickListener(getApplicationContext(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener()
-//                {
-//                    @Override public void onItemClick(View view, int position)
-//                    {
-//
-//                        Bundle b = new Bundle();
-//                        b.putInt("id_user", id_user);
-//                        b.putString("token", token);
-//                        b.putInt("id_plan", id_plan);
-//                        b.putInt("id_todo", id_todo);
-//
-//                        recyclerView.getLayoutManager().scrollToPosition(position);
-//                        b.putInt("position", position);
-//                        Intent i = new Intent(getApplicationContext(), ToDoDetails.class);
-//                        i.putExtras(b);
-//                        Toast.makeText(getApplicationContext(), "pos" + position, Toast.LENGTH_LONG).show();
-//                        startActivity(i);
-//                    }
-//
-//                    @Override public void onLongItemClick(View view, int position) {}
-//                })
-//        );
 
         todolist = new ArrayList<>();
 
@@ -112,6 +89,7 @@ public class KalenderDetails extends AppCompatActivity
                 b.putString("token", token);
                 b.putString("latitude", latitude);
                 b.putString("longitude", longitude);
+                b.putString("namaToko", namaToko);
                 Intent i = new Intent(getApplicationContext(), MapsActivity.class);
                 i.putExtras(b);
                 startActivity(i);
@@ -170,6 +148,7 @@ public class KalenderDetails extends AppCompatActivity
                 txtLongitude.setText(response.body().getPlanDetail().getLongitude_s());
                 latitude = response.body().getPlanDetail().getLatitude_s();
                 longitude = response.body().getPlanDetail().getLongitude_s();
+                namaToko = response.body().getPlanDetail().getStore_name();
                 if(tglm.equalsIgnoreCase(dateStamp) && (timeStamp.after(timeStart) && timeStamp.before(timeLimit)))
                 {
                     txtLate.setText("Absen");
@@ -244,11 +223,6 @@ public class KalenderDetails extends AppCompatActivity
             {
                 if(response.isSuccessful())
                 {
-
-//                    todolist = response.body().getTodo();
-//                    id_todo = response.body().getTodo().get(i).getId();
-//                    adapter = new AdapterTodo(todolist);
-//                    recyclerView.setAdapter(adapter);
                     for (int i = 0; i < response.body().getTodo().size(); i++)
                     {
 

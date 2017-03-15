@@ -16,7 +16,6 @@ import retrofit2.http.Query;
  */
 public interface RestApi
 {
-
     @POST("api/authentikasi")
     Call<Login> getLogin(@Body Login login);
 
@@ -24,7 +23,7 @@ public interface RestApi
     Call<User> getUserDetail(@Query("token") String token);
 
     @GET("api/kalender/{id_user}")
-    Call<Plan> getKalender(@Path("id_user") int id_user,@Query("token") String token);
+    Call<Plan> getKalender(@Path("id_user") int id_user, @Query("token") String token);
 
     @POST("api/user/updateloc")
     Call<Loc> Updatelocation(@Body Loc loc, @Query("token") String token);
