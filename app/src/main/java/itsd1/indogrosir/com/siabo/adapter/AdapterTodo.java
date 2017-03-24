@@ -3,6 +3,7 @@ package itsd1.indogrosir.com.siabo.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -32,7 +33,7 @@ public class AdapterTodo extends RecyclerView.Adapter<AdapterTodo.ViewHolder> {
     private String judul;
     private Context context;
 
-    public AdapterTodo( ArrayList<ToDo.ToDoDetail> todolist)
+    public AdapterTodo(ArrayList<ToDo.ToDoDetail> todolist)
     {
         this.todolist = todolist;
     }

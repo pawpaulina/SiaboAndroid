@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="itsd1.indogrosir.com.siabo">
 
     <!--
@@ -27,7 +28,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="android.support.multidex.MultiDexApplication">
+        android:name="android.support.multidex.MultiDexApplication"
+        tools:replace="android:icon">
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -69,6 +71,10 @@
         </activity>
         <activity
             android:name=".activity.ToDoDetails"
+            android:label="Detail Tugas">
+        </activity>
+        <activity
+            android:name=".activity.BuktiActivity"
             android:label="Detail Tugas">
         </activity>
         <meta-data

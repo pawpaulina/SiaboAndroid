@@ -9,8 +9,6 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -51,6 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import itsd1.indogrosir.com.siabo.DirectionFinder;
 import itsd1.indogrosir.com.siabo.DirectionFinderListener;
 import itsd1.indogrosir.com.siabo.R;
@@ -66,9 +65,7 @@ import retrofit2.Response;
  * Created by Paulina on 1/27/2017.
  */
 public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback, DirectionFinderListener,
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private GoogleMap mMap;
 
@@ -81,7 +78,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     GoogleApiClient mGoogleApiClient;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private Bundle extras;
-    private String token = "", latitude = "", longitude = "", origin = "", destination = "", namaToko;
+    private String token = "", latitude = "", longitude = "", origin = "", destination = "", namaToko, alamatToko;
 
     private List<Marker> originMarkers = new ArrayList<>();
     private List<Marker> destinationMarkers = new ArrayList<>();
@@ -121,6 +118,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         latitude = extras.getString("latitude");
         longitude = extras.getString("longitude");
         namaToko = extras.getString("namaToko");
+        alamatToko = extras.getString("alamatToko");
         posisiToko = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         try {
@@ -135,27 +133,39 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             @Override
             public void onClick(View v)
             {
+                if(AlamatToko.get(0).getAddressLine(0).equals(""))
+                {
+                    //saat lokasi user blm didapat menggunakan sweet alert
+                    new SweetAlertDialog(getApplicationContext(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Gagal!")
+                            .setContentText("Gagal mendapatkan lokasi user")
+                            .setCancelText("Coba Lagi")
+                            .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.cancel();
+                                }
+                            })
+                            .show();
+                }
                 origin = AlamatUser.get(0).getAddressLine(0);
                 destination = AlamatToko.get(0).getAddressLine(0);
                 //untuk rute
                 try
                 {
-//                    Toast.makeText(getApplicationContext(), origin, Toast.LENGTH_SHORT).show();
                     new DirectionFinder(MapsActivity.this, origin, destination).execute();
                 }
                 catch (UnsupportedEncodingException e)
                 {
                     e.printStackTrace();
                 }
-                //
-                Toast.makeText(getApplicationContext(),"sss", Toast.LENGTH_SHORT).show();
             }
         });
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
+    public void onConnected(Bundle bundle) {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(1000);
         mLocationRequest.setFastestInterval(1000);
@@ -220,7 +230,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    public void onConnectionFailed(ConnectionResult connectionResult) {
     }
 
     @Override
@@ -230,7 +240,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         Marker marker = mMap.addMarker(new MarkerOptions()
                 .position(posisiToko)
                 .title(namaToko)
-                .snippet("Latitude : " + latitude + ", Longitude : " + longitude)
+                .snippet(alamatToko)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.endpoint)));
         marker.showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(posisiToko, 15));
@@ -330,11 +340,11 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             ((TextView) findViewById(R.id.tvDistance)).setText(routes.distance.text);
 
             originMarkers.add(mMap.addMarker(new MarkerOptions()
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.start_blue))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.loc24))
                     .title(routes.startAddress)
                     .position(routes.startLocation)));
             destinationMarkers.add(mMap.addMarker(new MarkerOptions()
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.end_green))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.endpoint))
                     .title(routes.endAddress)
                     .position(routes.endLocation)));
 

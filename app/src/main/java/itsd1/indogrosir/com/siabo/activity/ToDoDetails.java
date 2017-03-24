@@ -45,7 +45,7 @@ public class ToDoDetails extends AppCompatActivity
         extras = new Bundle();
         extras = getIntent().getExtras();
 
-//        token = extras.getString("token");
+        token = extras.getString("token");
 //        id_plan = extras.getInt("id_plan");
 //        id_user = extras.getInt("id_user");
 //        id_todo = extras.getInt("id_todo");
@@ -66,6 +66,17 @@ public class ToDoDetails extends AppCompatActivity
             public void onClick(View v)
             {
                 Intent i = new Intent(getApplicationContext(), KalenderDetails.class);
+                startActivity(i);
+            }
+        });
+        btncheckin = (ImageButton) findViewById(R.id.btnCheckin);
+        btncheckin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle b = new Bundle();
+                b.putString("token", token);
+                Intent i = new Intent(getApplicationContext(), BuktiActivity.class);
+                i.putExtras(b);
                 startActivity(i);
             }
         });

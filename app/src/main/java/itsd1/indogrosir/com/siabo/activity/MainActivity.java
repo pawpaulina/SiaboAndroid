@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity
             public void onResponse(Call<Login> call, Response<Login> response)
             {
                 findViewById(R.id.loading_panel).setVisibility(View.GONE);
-                token = (response.body().getToken());
+                token = response.body().getToken();
                 Bundle b = new Bundle();
                 b.putString("token", token);
                 Intent i = new Intent(MainActivity.this, UserDetails.class);

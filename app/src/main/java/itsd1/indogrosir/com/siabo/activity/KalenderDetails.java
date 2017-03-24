@@ -38,10 +38,8 @@ public class KalenderDetails extends AppCompatActivity
     private ImageButton btnRute, btnCheck;
     private TextView txtToko, txtTglmulai, txtJam, txtAlamat, txtLongitude, txtLatitude, txtLate;
     private int id_plan = 0, id_user = 0, id_todo = 0, id_store = 0;
-    private String token = "", latitude = "", longitude = "", namaToko = "";
+    private String token = "", latitude = "", longitude = "", namaToko = "", alamatToko = "";
     private Bundle extras;
-
-    //Recyclerview
     private RecyclerView recyclerView;
     private ArrayList<ToDo.ToDoDetail> todolist;
     private AdapterTodo adapter;
@@ -90,6 +88,7 @@ public class KalenderDetails extends AppCompatActivity
                 b.putString("latitude", latitude);
                 b.putString("longitude", longitude);
                 b.putString("namaToko", namaToko);
+                b.putString("alamatToko", alamatToko);
                 Intent i = new Intent(getApplicationContext(), MapsActivity.class);
                 i.putExtras(b);
                 startActivity(i);
@@ -127,6 +126,7 @@ public class KalenderDetails extends AppCompatActivity
                 id_store = response.body().getPlanDetail().getId_store();
                 txtAlamat.setText(response.body().getPlanDetail().getAddress_s());
                 txtAlamat.setTypeface(font_Robotomed);
+                alamatToko = response.body().getPlanDetail().getAddress_s();
 
                 String tglm = date.format(response.body().getPlanDetail().getTgl_plan_mulai());
                 try
@@ -149,7 +149,7 @@ public class KalenderDetails extends AppCompatActivity
                 latitude = response.body().getPlanDetail().getLatitude_s();
                 longitude = response.body().getPlanDetail().getLongitude_s();
                 namaToko = response.body().getPlanDetail().getStore_name();
-                if(tglm.equalsIgnoreCase(dateStamp) && (timeStamp.after(timeStart) && timeStamp.before(timeLimit)))
+                if(tglm.equalsIgnoreCase(dateStamp) && (timeStamp.after(timeStart) && timeStamp.before(timeLimit)) )
                 {
                     txtLate.setText("Absen");
                     txtLate.setTypeface(font_Robotomed);
@@ -199,7 +199,6 @@ public class KalenderDetails extends AppCompatActivity
             @Override
             public void onResponse(Call<EksObject> call, Response<EksObject> response)
             {
-                //tabel eks di update
                 Toast.makeText(getApplicationContext(), "Sudah check in", Toast.LENGTH_LONG).show();
             }
 
@@ -225,11 +224,11 @@ public class KalenderDetails extends AppCompatActivity
                 {
                     for (int i = 0; i < response.body().getTodo().size(); i++)
                     {
-
                         todolist = response.body().getTodo();
                         id_todo = response.body().getTodo().get(i).getId();
                         adapter = new AdapterTodo(todolist);
                         recyclerView.setAdapter(adapter);
+
                     }
                 }
                 else

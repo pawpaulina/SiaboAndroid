@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.github.tibolte.agendacalendarview.AgendaCalendarView;
@@ -71,6 +72,9 @@ public class KalenderActivity extends AppCompatActivity implements CalendarPicke
 
         calendarView = (AgendaCalendarView) findViewById(R.id.agenda_calendar_view);
         calendarView.init(eventList, minDate, maxDate, Locale.getDefault(), KalenderActivity.this);
+//
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
     }
 
     private void mockList(List<CalendarEvent> eventList, Response<Plan> response)

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+    <!--<item-->
+        <!--android:id="@+id/toolbar"-->
+        <!--android:showAsAction="always"-->
+        <!--android:title="Log Out">-->
+        <!--&lt;!&ndash;<menu>&ndash;&gt;-->
+            <!--&lt;!&ndash;<item&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/logout"&ndash;&gt;-->
+                <!--&lt;!&ndash;app:showAsAction="ifRoom|withText"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:title="Log Out">&ndash;&gt;-->
+            <!--&lt;!&ndash;</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;</menu>&ndash;&gt;-->
+    <!--</item>-->
+</menu>

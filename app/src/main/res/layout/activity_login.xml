@@ -53,38 +53,81 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
 
-            <EditText
-                android:layout_width="wrap_content"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:ems="10"
-                android:id="@+id/txtemail"
-                android:hint="E-mail"
-                android:paddingBottom="20dp"
-                android:paddingTop="10dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="46dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="#FFFFFF" />
+                android:hint="Email"
+                android:id="@+id/email"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_above="@+id/pwd"
+                android:layout_alignParentStart="true">
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtemail"
+                    android:textSize="18sp"
+                    android:inputType="text"
+                    android:layout_above="@+id/txtpassword"
+                    android:layout_alignEnd="@+id/email"
+                    android:layout_alignStart="@+id/email"
+                    android:background="#FFFFFF" />
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:layout_width="wrap_content"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:ems="10"
-                android:id="@+id/txtpassword"
                 android:hint="Password"
-                android:paddingBottom="20dp"
+                android:id="@+id/pwd"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
-                android:autoText="false"
-                android:background="#FFFFFF" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="48dp">
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtpassword"
+                    android:textSize="18sp"
+                    android:inputType="text"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignEnd="@+id/txtemail"
+                    android:layout_alignStart="@+id/txtemail"
+                    android:background="#FFFFFF" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!--<EditText-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:inputType="textEmailAddress"-->
+                <!--android:ems="10"-->
+                <!--android:id="@+id/txtemail"-->
+                <!--android:hint="E-mail"-->
+                <!--android:paddingBottom="20dp"-->
+                <!--android:paddingTop="10dp"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:layout_marginBottom="46dp"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:background="#FFFFFF" />-->
+
+            <!--<EditText-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:inputType="textPassword"-->
+                <!--android:ems="10"-->
+                <!--android:id="@+id/txtpassword"-->
+                <!--android:hint="Password"-->
+                <!--android:paddingBottom="20dp"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:autoText="false"-->
+                <!--android:background="#FFFFFF" />-->
         </RelativeLayout>
 
         <RelativeLayout
