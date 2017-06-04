@@ -69,11 +69,11 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
     private GoogleMap mMap;
 
-    LatLng posisiToko;
+    private LatLng posisiToko;
 
     private int PROXIMITY_RADIUS = 10000;
     Location mLastLocation;
-    Marker mCurrLocationMarker, mToko;
+    Marker mCurrLocationMarker;
     LocationRequest mLocationRequest;
     GoogleApiClient mGoogleApiClient;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
@@ -120,6 +120,13 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         namaToko = extras.getString("namaToko");
         alamatToko = extras.getString("alamatToko");
         posisiToko = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+        Marker marker = mMap.addMarker(new MarkerOptions()
+                .position(posisiToko)
+                .title(namaToko)
+                .snippet(alamatToko)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.endpoint))); //markernya udh kebentuk trs jd null lg
+        marker.showInfoWindow();
+
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         try {
             AlamatToko = geocoder.getFromLocation(Double.parseDouble(latitude), Double.parseDouble(longitude), 1);
@@ -237,12 +244,12 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        Marker marker = mMap.addMarker(new MarkerOptions()
-                .position(posisiToko)
-                .title(namaToko)
-                .snippet(alamatToko)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.endpoint)));
-        marker.showInfoWindow();
+//        Marker marker = mMap.addMarker(new MarkerOptions()
+//                .position(posisiToko)
+//                .title(namaToko)
+//                .snippet(alamatToko)
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.endpoint)));
+//        marker.showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(posisiToko, 15));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
         mMap.setMyLocationEnabled(true);

@@ -20,7 +20,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ApiClient
 {
-    public static final String BASE_URL = "http:/192.168.43.192/Siabo/public/";
+//    public static final String BASE_URL = "http:/192.168.1.109/Siabo/public/"; //wifi SD 1
+    public static final String BASE_URL = "http:/192.168.43.192/Siabo/public/"; //wifi hp
+//    public static final String BASE_URL = "http:/192.168.1.10/Siabo/public/"; //wifi kost felix
+
     public static String token = "";
     private static Retrofit retrofit = null;
 

@@ -1,5 +1,6 @@
 package itsd1.indogrosir.com.siabo.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity
     private static String token="";
     private Button btnLogin;
     private TextView txttitle, txtsubtitle;
-
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -61,7 +62,11 @@ public class MainActivity extends AppCompatActivity
 
     public void buttonLogin(View v)
     {
-        findViewById(R.id.loading_panel).setVisibility(View.VISIBLE);
+//        findViewById(R.id.loading_panel).setVisibility(View.VISIBLE);
+        progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setMessage("Loading..");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         EditText email=(EditText) findViewById(R.id.txtemail);
         EditText pass=(EditText) findViewById(R.id.txtpassword);
         String e_mail = email.getText().toString();
@@ -75,10 +80,10 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onResponse(Call<Login> call, Response<Login> response)
             {
-                findViewById(R.id.loading_panel).setVisibility(View.GONE);
                 token = response.body().getToken();
                 Bundle b = new Bundle();
                 b.putString("token", token);
+                progressDialog.dismiss();
                 Intent i = new Intent(MainActivity.this, UserDetails.class);
                 i.putExtras(b);
                 startActivity(i);
@@ -89,18 +94,17 @@ public class MainActivity extends AppCompatActivity
                 if(isOnline())
                 {
                     Log.d("Log",t.toString());
-                    findViewById(R.id.loading_panel).setVisibility(View.GONE);
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                     alertDialogBuilder.setMessage("Email atau Password Anda salah");
                     alertDialogBuilder.setNegativeButton("OK",new DialogInterface.OnClickListener()
                     {
                         public void onClick(DialogInterface dialog, int which)
                         {
+                            progressDialog.dismiss();
                         }
                     });
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
-//                Toast.makeText(getApplicationContext(), "Email atau Password Anda salah", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
@@ -111,6 +115,7 @@ public class MainActivity extends AppCompatActivity
                     {
                         public void onClick(DialogInterface dialog, int which)
                         {
+                            progressDialog.dismiss();
                         }
                     });
                     AlertDialog alertDialog = alertDialogBuilder.create();

@@ -37,6 +37,7 @@ dependencies {
 
     compile 'com.android.support:multidex:1.0.0'
     compile 'com.android.support:appcompat-v7:23.0.2'
+
     compile 'com.google.android.gms:play-services:10.2.0'
     compile 'com.google.android.gms:play-services-maps:10.2.0'
     compile 'com.google.android.gms:play-services-ads:10.2.0'
@@ -49,6 +50,6 @@ dependencies {
     compile 'com.github.jd-alexander:library:1.1.0'
 
     compile 'com.android.support:cardview-v7:23.0.+'
-    //sweet alert dialog
+
     compile 'cn.pedant.sweetalert:library:1.2'
 }

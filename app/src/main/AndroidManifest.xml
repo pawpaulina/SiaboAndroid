@@ -17,6 +17,8 @@
 
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_OWNER_DATA" />
 
     <provider
         android:name="com.tyczj.extendedcalendarview.CalendarProvider"
@@ -76,6 +78,10 @@
         <activity
             android:name=".activity.BuktiActivity"
             android:label="Detail Tugas">
+        </activity>
+        <activity
+            android:name=".activity.CustomPhotoGalleryActivity"
+            android:label="Pilih Foto">
         </activity>
         <meta-data
             android:name="com.google.android.gms.version"

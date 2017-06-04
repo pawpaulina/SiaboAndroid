@@ -1,54 +1,37 @@
 package itsd1.indogrosir.com.siabo.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import itsd1.indogrosir.com.siabo.R;
-import itsd1.indogrosir.com.siabo.activity.BuktiActivity;
-import itsd1.indogrosir.com.siabo.activity.KalenderDetails;
-import itsd1.indogrosir.com.siabo.activity.MainActivity;
 import itsd1.indogrosir.com.siabo.activity.ToDoDetails;
-import itsd1.indogrosir.com.siabo.models.Bukti;
 import itsd1.indogrosir.com.siabo.models.ToDo;
-import itsd1.indogrosir.com.siabo.rest.ApiClient;
-import itsd1.indogrosir.com.siabo.rest.RestApi;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import itsd1.indogrosir.com.siabo.models.TugasPokok;
 
 /**
- * Created by Paulina on 2/8/2017.
+ * Created by Paulina on 5/11/2017.
  */
-public class AdapterTodo extends RecyclerView.Adapter<AdapterTodo.ViewHolder> {
+public class AdapterTugasPokok extends RecyclerView.Adapter<AdapterTugasPokok.ViewHolder> {
 
-    ArrayList<ToDo.ToDoDetail> todolist;
-    private String judul,token, id_bukti;
+    ArrayList<TugasPokok.TPDetail> tplist;
+    private String judul, token, id_bukti;
     private Context context;
     private int id_todo, id_user, id_plan;
     private CardView layoutTodo;
 
-    public AdapterTodo(ArrayList<ToDo.ToDoDetail> todolist)
+    public AdapterTugasPokok(ArrayList<TugasPokok.TPDetail> tplist)
     {
-        this.todolist = todolist;
+        this.tplist = tplist;
     }
 
     @Override
@@ -60,8 +43,8 @@ public class AdapterTodo extends RecyclerView.Adapter<AdapterTodo.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.txtJudul.setText(todolist.get(position).getJudul_tugas());
-        holder.txtDeskripsi.setText(todolist.get(position).getDeskripsi_tugas());
+        holder.txtJudul.setText(tplist.get(position).getJudul());
+        holder.txtDeskripsi.setText(tplist.get(position).getDeskripsi());
         holder.txtTodo.setText(String.valueOf(id_todo));
         holder.txtUser.setText(String.valueOf(id_user));
         holder.txtToken.setText(token.toString());
@@ -76,7 +59,7 @@ public class AdapterTodo extends RecyclerView.Adapter<AdapterTodo.ViewHolder> {
     @Override
     public int getItemCount()
     {
-        return todolist.size();
+        return tplist.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
@@ -109,8 +92,8 @@ public class AdapterTodo extends RecyclerView.Adapter<AdapterTodo.ViewHolder> {
             b.putInt("id_todo", Integer.parseInt(txtTodo.getText().toString()));
             b.putInt("id_user", Integer.parseInt(txtUser.getText().toString()));
             b.putInt("id_plan", Integer.parseInt(txtIDPlan.getText().toString()));
+            b.putInt("tugas", 1);
             b.putString("token", txtToken.getText().toString());
-            b.putInt("tugas", 0);
             Intent i = new Intent(v.getContext(), ToDoDetails.class);
             i.putExtras(b);
             v.getContext().startActivity(i);

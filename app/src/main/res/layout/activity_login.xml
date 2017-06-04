@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/txtpassword"
                     android:textSize="18sp"
-                    android:inputType="text"
+                    android:inputType="textPassword"
                     android:layout_alignParentBottom="true"
                     android:layout_alignEnd="@+id/txtemail"
                     android:layout_alignStart="@+id/txtemail"

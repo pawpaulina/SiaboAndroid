@@ -2,6 +2,7 @@ package itsd1.indogrosir.com.siabo.activity;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 
 import com.github.tibolte.agendacalendarview.AgendaCalendarView;
 import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
@@ -45,8 +47,7 @@ public class KalenderActivity extends AppCompatActivity implements CalendarPicke
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-    private AlarmManager alarmMgr;
-    private PendingIntent alarmIntent;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -129,6 +130,10 @@ public class KalenderActivity extends AppCompatActivity implements CalendarPicke
 
     void getKalender(final List<CalendarEvent> eventList)
     {
+        progressDialog = new ProgressDialog(KalenderActivity.this);
+        progressDialog.setMessage("Loading..");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         RestApi apiService = ApiClient.getClient().create(RestApi.class);
         Call<Plan> call = apiService.getKalender(id_user, token);
 
@@ -137,6 +142,7 @@ public class KalenderActivity extends AppCompatActivity implements CalendarPicke
             @Override
             public void onResponse(Call<Plan> call, Response<Plan> response)
             {
+                progressDialog.dismiss();
                 try
                 {
                     mockList(eventList, response);

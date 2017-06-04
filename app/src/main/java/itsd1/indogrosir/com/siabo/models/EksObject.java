@@ -3,6 +3,7 @@ package itsd1.indogrosir.com.siabo.models;
 import com.google.gson.annotations.SerializedName;
 
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -15,14 +16,16 @@ public class EksObject {
     private int id_store;
     @SerializedName("id_user")
     private int id_user;
-    @SerializedName("id_todo")
-    private int id_todo;
+    @SerializedName("id_plan")
+    private int id_plan;
+    @SerializedName("created_at")
+    private String created_at;
 
-    public EksObject(int store_code, int id_user, int id_todo)
+    public EksObject(int store_code, int id_user, int id_plan)
     {
         this.id_store = id_store;
         this.id_user = id_user;
-        this.id_todo = id_todo;
+        this.id_plan = id_plan;
     }
 
     public void setId_store(int id_store)
@@ -40,9 +43,16 @@ public class EksObject {
         return id_user;
     }
 
-    public int getId_todo()
+    public int getId_plan()
     {
-        return id_todo;
+        return id_plan;
     }
 
+    public int getId_eks() {
+        return id_eks;
+    }
+
+    public String getCreated_at() {
+        return created_at;
+    }
 }

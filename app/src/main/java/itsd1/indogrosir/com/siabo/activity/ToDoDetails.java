@@ -1,9 +1,11 @@
 package itsd1.indogrosir.com.siabo.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,6 +18,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import itsd1.indogrosir.com.siabo.R;
+import itsd1.indogrosir.com.siabo.models.Bukti;
+import itsd1.indogrosir.com.siabo.models.BuktiTP;
+import itsd1.indogrosir.com.siabo.models.EksObject;
 import itsd1.indogrosir.com.siabo.models.PlanDet;
 import itsd1.indogrosir.com.siabo.models.ToDo;
 import itsd1.indogrosir.com.siabo.rest.ApiClient;
@@ -33,8 +38,9 @@ public class ToDoDetails extends AppCompatActivity
     private TextView txtJudul, txtDesc, txtKet;
     private Bundle extras;
     private int id_plan = 0, id_user = 0;
-    private int id_todo = 0, position = 0;
+    private int id_todo = 0, tugas = 0;
     private String token = "";
+    private CardView cardView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,14 +52,15 @@ public class ToDoDetails extends AppCompatActivity
         extras = getIntent().getExtras();
 
         token = extras.getString("token");
-//        id_plan = extras.getInt("id_plan");
-//        id_user = extras.getInt("id_user");
-//        id_todo = extras.getInt("id_todo");
-//        position = extras.getInt("position");
+        id_plan = extras.getInt("id_plan");
+        id_user = extras.getInt("id_user");
+        id_todo = extras.getInt("id_todo");
+        tugas = extras.getInt("tugas");
 
         txtJudul = (TextView) findViewById(R.id.txtJudul);
         txtDesc = (TextView) findViewById(R.id.txtDeskripsi);
         txtKet = (TextView) findViewById(R.id.txtKet);
+        cardView = (CardView) findViewById(R.id.card_view);
         findViewById(R.id.txtKet).setVisibility(View.GONE);
 
         txtJudul.setText(extras.getString("judul"));
@@ -70,21 +77,124 @@ public class ToDoDetails extends AppCompatActivity
             }
         });
         btncheckin = (ImageButton) findViewById(R.id.btnCheckin);
-        btncheckin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle b = new Bundle();
-                b.putString("token", token);
-                Intent i = new Intent(getApplicationContext(), BuktiActivity.class);
-                i.putExtras(b);
-                startActivity(i);
-            }
-        });
 
+        btnCheck();
         //getDetailTodo();
 //        Toast.makeText(getApplicationContext(), "pos"+position, Toast.LENGTH_LONG).show();
     }
 
+    private void btnCheck()
+    {
+        RestApi apiService = ApiClient.getClient().create(RestApi.class);
+        Call<EksObject> call2 = apiService.getCekCheckin(id_plan, token);
+        call2.enqueue(new Callback<EksObject>()
+        {
+            @Override
+            public void onResponse(Call<EksObject> call2, Response<EksObject> response)
+            {
+                if(response.body().getId_plan()==0)
+                {
+                    btncheckin.setVisibility(View.GONE);
+                    //blm absen
+                }
+                else
+                {
+                    //sudah absen
+                    if(tugas==1)
+                    {
+                        RestApi apiService = ApiClient.getClient().create(RestApi.class);
+                        Call<BuktiTP> call = apiService.cekSubmitTP(id_todo, token);
+                        call.enqueue(new Callback<BuktiTP>() {
+                            @Override
+                            public void onResponse(Call<BuktiTP> call, final Response<BuktiTP> response) {
+                                if(response.body().getId()==0)
+                                {
+                                    //blm kerjain tugas
+                                    btncheckin.setVisibility(View.VISIBLE);
+                                    btncheckin.setOnClickListener(new View.OnClickListener()
+                                    {
+                                        @Override
+                                        public void onClick(View v)
+                                        {
+                                            Bundle b = new Bundle();
+                                            b.putString("token", token);
+                                            b.putInt("id_user", id_user);
+                                            b.putInt("id_todo", id_todo);
+                                            b.putInt("id_plan", id_plan);
+                                            b.putInt("tugas", tugas);
+                                            b.putInt("foto", response.body().getFoto());
+                                            Intent i = new Intent(getApplicationContext(), BuktiActivity.class);
+                                            i.putExtras(b);
+                                            startActivity(i);
+                                        }
+                                    });
+                                }
+                                else
+                                {
+                                    //sudah kerjain tugas
+                                    btncheckin.setVisibility(View.GONE);
+                                    txtKet.setVisibility(View.VISIBLE);
+                                    txtKet.setText("Sudah dikerjakan : "+response.body().getCreated_at());
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<BuktiTP> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                    else
+                    {
+                        RestApi apiService = ApiClient.getClient().create(RestApi.class);
+                        Call<Bukti> call = apiService.cekSubmit(id_todo, token);
+
+                        call.enqueue(new Callback<Bukti>() {
+                            @Override
+                            public void onResponse(Call<Bukti> call, Response<Bukti> response)
+                            {
+                                if(response.body().getId()==0)
+                                {
+                                    //blm kerjain tugas
+                                    btncheckin.setVisibility(View.VISIBLE);
+                                    btncheckin.setOnClickListener(new View.OnClickListener()
+                                    {
+                                        @Override
+                                        public void onClick(View v)
+                                        {
+                                            Bundle b = new Bundle();
+                                            b.putString("token", token);
+                                            b.putInt("id_user", id_user);
+                                            b.putInt("id_todo", id_todo);
+                                            b.putInt("id_plan", id_plan);
+                                            b.putInt("tugas", tugas);
+                                            Intent i = new Intent(getApplicationContext(), BuktiActivity.class);
+                                            i.putExtras(b);
+                                            startActivity(i);
+                                        }
+                                    });
+                                }
+                                else
+                                {
+                                    //sudah kerjain tugas
+                                    btncheckin.setVisibility(View.GONE);
+                                    txtKet.setVisibility(View.VISIBLE);
+                                    txtKet.setText("Sudah dikerjakan : "+response.body().getCreated_at());
+//                    cardView.setCardBackgroundColor(Color.GREEN);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Bukti> call, Throwable t) {     Log.d("Error : ",t.toString());       }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EksObject> call, Throwable t) { Log.d("Error : ",t.toString()); }
+        });
+    }
     void getDetailTodo()
     {
         final Typeface font_Robotomed = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Black.ttf");
@@ -107,7 +217,7 @@ public class ToDoDetails extends AppCompatActivity
             @Override
             public void onFailure(Call<ToDo> call, Throwable t)
             {
-                Log.d("Log : ",t.toString());
+                Log.d("Error : ",t.toString());
             }
         });
     }
