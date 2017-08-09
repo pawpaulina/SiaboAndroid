@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.github.tibolte.agendacalendarview.AgendaCalendarView;
+import com.github.tibolte.agendacalendarview.CalendarManager;
+import com.github.tibolte.agendacalendarview.agenda.AgendaView;
 import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.CalendarPickerController;
@@ -41,7 +43,8 @@ public class KalenderActivity extends AppCompatActivity implements CalendarPicke
     public int id_user = 0, id_plan=0;
     private Bundle extras;
     private String token = "";
-    AgendaCalendarView calendarView;
+    private AgendaCalendarView calendarView;
+    private AgendaView mAgendaView;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -176,8 +179,11 @@ public class KalenderActivity extends AppCompatActivity implements CalendarPicke
     @Override
     public void onEventSelected(CalendarEvent event)
     {
+        mAgendaView = (AgendaView) findViewById(R.id.agenda_view);
         if(event.getId() != 0)
         {
+//            Log.wtf("stt : ", ""+CalendarManager.getInstance().getToday());
+//            mAgendaView.getAgendaListView().scrollToCurrentDate(CalendarManager.getInstance().getToday());
             Bundle b = new Bundle();
             b.putString("token", token);
             b.putInt("id_plan", (int) event.getId());

@@ -56,8 +56,8 @@ public interface RestApi
     Call<BuktiTP> submitTP(@Body BuktiTP buktiTP, @Path("idtodo") int idtodo, @Query("token") String token);
 
     @GET("api/eks/ceksubmit/{idtodo}")
-    Call<Bukti> cekSubmit(@Path("idtodo") int idtodo, @Query("token") String token);
+    Call<ToDo.ToDoDetail> cekSubmit(@Path("idtodo") int idtodo, @Query("token") String token);
 
     @GET("api/eks/ceksubmitTP/{idtodo}")
-    Call<BuktiTP> cekSubmitTP(@Path("idtodo") int idtodo, @Query("token") String token);
+    Call<TugasPokok.TPDetail> cekSubmitTP(@Path("idtodo") int idtodo, @Query("token") String token);
 }

@@ -151,6 +151,8 @@ public class BuktiActivity extends AppCompatActivity implements View.OnClickList
                                     public void onClick(DialogInterface dialog, int which)
                                     {
                                         Log.d("Log ", "button di klik");
+                                        Intent intent = new Intent(BuktiActivity.this, KalenderActivity.class);
+                                        startActivityForResult(intent, 1);
                                     }
                                 });
                                 AlertDialog alertDialog = alertDialogBuilder.create();
@@ -182,6 +184,8 @@ public class BuktiActivity extends AppCompatActivity implements View.OnClickList
                                     public void onClick(DialogInterface dialog, int which)
                                     {
                                         Log.d("Log ", "button di klik");
+                                        Intent intent = new Intent(BuktiActivity.this, KalenderActivity.class);
+                                        startActivityForResult(intent, 1);
                                     }
                                 });
                                 AlertDialog alertDialog = alertDialogBuilder.create();

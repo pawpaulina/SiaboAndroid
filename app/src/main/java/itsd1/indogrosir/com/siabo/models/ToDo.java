@@ -33,14 +33,16 @@ public class ToDo {
         @SerializedName("keterangan")
         private String keterangan;
         @SerializedName("id_bukti")
-        private String id_bukti;
+        private int id_bukti;
+        @SerializedName("created_at")
+        private String created_at;
 
         public ToDoDetail(int id, String judul_tugas, String deskripsi_tugas, String keterangan)
         {
             this.id = id;
             this.judul_tugas = judul_tugas;
             this.deskripsi_tugas = deskripsi_tugas;
-            this.keterangan = this.keterangan;
+            this.keterangan = keterangan;
         }
 
         public int getId()
@@ -88,8 +90,16 @@ public class ToDo {
             this.id_plan = id_plan;
         }
 
-        public String getId_bukti() {
+        public int getId_bukti() {
             return id_bukti;
+        }
+
+        public void setId_bukti(int id_bukti) {
+            this.id_bukti = id_bukti;
+        }
+
+        public String getCreated_at() {
+            return created_at;
         }
     }
 }

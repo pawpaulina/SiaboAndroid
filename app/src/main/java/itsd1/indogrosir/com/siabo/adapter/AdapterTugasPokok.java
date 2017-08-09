@@ -6,15 +6,22 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import itsd1.indogrosir.com.siabo.R;
 import itsd1.indogrosir.com.siabo.activity.ToDoDetails;
+import itsd1.indogrosir.com.siabo.models.SiDao;
 import itsd1.indogrosir.com.siabo.models.ToDo;
 import itsd1.indogrosir.com.siabo.models.TugasPokok;
 
@@ -24,13 +31,15 @@ import itsd1.indogrosir.com.siabo.models.TugasPokok;
 public class AdapterTugasPokok extends RecyclerView.Adapter<AdapterTugasPokok.ViewHolder> {
 
     ArrayList<TugasPokok.TPDetail> tplist;
-    private String judul, token, id_bukti;
-    private Context context;
-    private int id_todo, id_user, id_plan;
+    private String judul, tanggal, today;
+    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-DD");
+    private Date dateToday, dateTP;
     private CardView layoutTodo;
+    private SiDao siDao;
 
-    public AdapterTugasPokok(ArrayList<TugasPokok.TPDetail> tplist)
+    public AdapterTugasPokok(ArrayList<TugasPokok.TPDetail> tplist, SiDao siDao)
     {
+        this.siDao= siDao;
         this.tplist = tplist;
     }
 
@@ -43,16 +52,65 @@ public class AdapterTugasPokok extends RecyclerView.Adapter<AdapterTugasPokok.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+//        Log.d("tanggal", tplist.get(position).getExp_date().toString());
         holder.txtJudul.setText(tplist.get(position).getJudul());
         holder.txtDeskripsi.setText(tplist.get(position).getDeskripsi());
-        holder.txtTodo.setText(String.valueOf(id_todo));
-        holder.txtUser.setText(String.valueOf(id_user));
-        holder.txtToken.setText(token.toString());
-        holder.txtIDPlan.setText(String.valueOf(id_plan));
-        holder.txtIDBukti.setText(id_bukti);
-//        if(id_bukti!= "null")
+        holder.txtTodo.setText(String.valueOf(siDao.getId_todo()));
+        holder.txtUser.setText(String.valueOf(siDao.getId_user()));
+        holder.txtToken.setText(siDao.getToken());
+        holder.txtIDPlan.setText(String.valueOf(siDao.getId_plan()));
+        holder.txtIDBukti.setText(String.valueOf(tplist.get(position).getId_bukti()));
+        Log.wtf("idbukti :", String.valueOf(tplist.get(position).getId_bukti()));
+        if(tplist.get(position).getId_bukti() != 0)
+        {
+            layoutTodo.setCardBackgroundColor(Color.GREEN);
+        }
+//        if(tplist.get(position).getExp_date() == null)
 //        {
-//            layoutTodo.setCardBackgroundColor(Color.GREEN);
+//            holder.txtJudul.setText(tplist.get(position).getJudul());
+//            holder.txtDeskripsi.setText(tplist.get(position).getDeskripsi());
+//            holder.txtTodo.setText(String.valueOf(siDao.getId_todo()));
+//            holder.txtUser.setText(String.valueOf(siDao.getId_user()));
+//            holder.txtToken.setText(siDao.getToken());
+//            holder.txtIDPlan.setText(String.valueOf(siDao.getId_plan()));
+//            holder.txtIDBukti.setText(String.valueOf(tplist.get(position).getId_bukti()));
+//            Log.wtf("idbukti :", String.valueOf(tplist.get(position).getId_bukti()));
+//            if(tplist.get(position).getId_bukti() != 0)
+//            {
+//                layoutTodo.setCardBackgroundColor(Color.GREEN);
+//            }
+//        }
+//        else
+//        {
+//            //ngeget tanggal dlm bentuk string
+//            today = new SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime());
+//            tanggal = new SimpleDateFormat("dd-MMM-yyyy").format(tplist.get(position).getExp_date());
+//            //format tanggal yg udh di get jadi tipe datanya date
+//            try {
+//                dateToday = (Date)formatter.parse(today);
+//                dateTP = (Date)formatter.parse(tanggal);
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            //pengecekan tgl expired tugas
+//            if(dateToday.after(dateTP))
+//            {
+//            }
+//            else
+//            {
+//                holder.txtJudul.setText(tplist.get(position).getJudul());
+//                holder.txtDeskripsi.setText(tplist.get(position).getDeskripsi());
+//                holder.txtTodo.setText(String.valueOf(siDao.getId_todo()));
+//                holder.txtUser.setText(String.valueOf(siDao.getId_user()));
+//                holder.txtToken.setText(siDao.getToken());
+//                holder.txtIDPlan.setText(String.valueOf(siDao.getId_plan()));
+//                holder.txtIDBukti.setText(String.valueOf(tplist.get(position).getId_bukti()));
+//                Log.wtf("idbukti :", String.valueOf(tplist.get(position).getId_bukti()));
+//                if(tplist.get(position).getId_bukti() != 0)
+//                {
+//                    layoutTodo.setCardBackgroundColor(Color.GREEN);
+//                }
+//            }
 //        }
     }
 
@@ -69,7 +127,6 @@ public class AdapterTugasPokok extends RecyclerView.Adapter<AdapterTugasPokok.Vi
         public ViewHolder(View itemView)
         {
             super(itemView);
-
             txtJudul = (TextView) itemView.findViewById(R.id.txtJudul);
             judul = txtJudul.toString();
             txtDeskripsi = (TextView) itemView.findViewById(R.id.txtDeskripsi);
@@ -79,7 +136,6 @@ public class AdapterTugasPokok extends RecyclerView.Adapter<AdapterTugasPokok.Vi
             txtIDPlan = (TextView) itemView.findViewById(R.id.txt_idplan);
             txtIDBukti = (TextView) itemView.findViewById(R.id.txt_idbukti);
             layoutTodo = (CardView) itemView.findViewById(R.id.card_view);
-
             itemView.setOnClickListener(this);
         }
 
@@ -98,30 +154,5 @@ public class AdapterTugasPokok extends RecyclerView.Adapter<AdapterTugasPokok.Vi
             i.putExtras(b);
             v.getContext().startActivity(i);
         }
-    }
-
-    public int getIDTodo(int idtodo)
-    {
-        return this.id_todo = idtodo;
-    }
-
-    public int getIDUser(int iduser)
-    {
-        return this.id_user = iduser;
-    }
-
-    public int getIDPlan(int idplan)
-    {
-        return this.id_plan = idplan;
-    }
-
-    public String getIDBukti(String idbukti)
-    {
-        return this.id_bukti = idbukti;
-    }
-
-    public String getToken(String token)
-    {
-        return this.token = token;
     }
 }

@@ -23,6 +23,7 @@ import itsd1.indogrosir.com.siabo.models.BuktiTP;
 import itsd1.indogrosir.com.siabo.models.EksObject;
 import itsd1.indogrosir.com.siabo.models.PlanDet;
 import itsd1.indogrosir.com.siabo.models.ToDo;
+import itsd1.indogrosir.com.siabo.models.TugasPokok;
 import itsd1.indogrosir.com.siabo.rest.ApiClient;
 import itsd1.indogrosir.com.siabo.rest.RestApi;
 import retrofit2.Call;
@@ -103,10 +104,10 @@ public class ToDoDetails extends AppCompatActivity
                     if(tugas==1)
                     {
                         RestApi apiService = ApiClient.getClient().create(RestApi.class);
-                        Call<BuktiTP> call = apiService.cekSubmitTP(id_todo, token);
-                        call.enqueue(new Callback<BuktiTP>() {
+                        Call<TugasPokok.TPDetail> call = apiService.cekSubmitTP(id_todo, token);
+                        call.enqueue(new Callback<TugasPokok.TPDetail>() {
                             @Override
-                            public void onResponse(Call<BuktiTP> call, final Response<BuktiTP> response) {
+                            public void onResponse(Call<TugasPokok.TPDetail> call, final Response<TugasPokok.TPDetail> response) {
                                 if(response.body().getId()==0)
                                 {
                                     //blm kerjain tugas
@@ -137,21 +138,17 @@ public class ToDoDetails extends AppCompatActivity
                                     txtKet.setText("Sudah dikerjakan : "+response.body().getCreated_at());
                                 }
                             }
-
                             @Override
-                            public void onFailure(Call<BuktiTP> call, Throwable t) {
-
-                            }
+                            public void onFailure(Call<TugasPokok.TPDetail> call, Throwable t) {    Log.d("Error : ",t.toString()); }
                         });
                     }
                     else
                     {
                         RestApi apiService = ApiClient.getClient().create(RestApi.class);
-                        Call<Bukti> call = apiService.cekSubmit(id_todo, token);
-
-                        call.enqueue(new Callback<Bukti>() {
+                        Call<ToDo.ToDoDetail> call = apiService.cekSubmit(id_todo, token);
+                        call.enqueue(new Callback<ToDo.ToDoDetail>() {
                             @Override
-                            public void onResponse(Call<Bukti> call, Response<Bukti> response)
+                            public void onResponse(Call<ToDo.ToDoDetail> call, final Response<ToDo.ToDoDetail> response)
                             {
                                 if(response.body().getId()==0)
                                 {
@@ -180,12 +177,11 @@ public class ToDoDetails extends AppCompatActivity
                                     btncheckin.setVisibility(View.GONE);
                                     txtKet.setVisibility(View.VISIBLE);
                                     txtKet.setText("Sudah dikerjakan : "+response.body().getCreated_at());
-//                    cardView.setCardBackgroundColor(Color.GREEN);
                                 }
                             }
 
                             @Override
-                            public void onFailure(Call<Bukti> call, Throwable t) {     Log.d("Error : ",t.toString());       }
+                            public void onFailure(Call<ToDo.ToDoDetail> call, Throwable t) {     Log.d("Error : ",t.toString());       }
                         });
                     }
                 }

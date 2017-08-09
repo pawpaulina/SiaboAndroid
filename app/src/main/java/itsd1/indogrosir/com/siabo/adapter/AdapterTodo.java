@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,8 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.okhttp.internal.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +31,7 @@ import itsd1.indogrosir.com.siabo.activity.KalenderDetails;
 import itsd1.indogrosir.com.siabo.activity.MainActivity;
 import itsd1.indogrosir.com.siabo.activity.ToDoDetails;
 import itsd1.indogrosir.com.siabo.models.Bukti;
+import itsd1.indogrosir.com.siabo.models.SiDao;
 import itsd1.indogrosir.com.siabo.models.ToDo;
 import itsd1.indogrosir.com.siabo.rest.ApiClient;
 import itsd1.indogrosir.com.siabo.rest.RestApi;
@@ -41,15 +45,21 @@ import retrofit2.Response;
 public class AdapterTodo extends RecyclerView.Adapter<AdapterTodo.ViewHolder> {
 
     ArrayList<ToDo.ToDoDetail> todolist;
-    private String judul,token, id_bukti;
+    private String judul, token, id_bukti;
     private Context context;
     private int id_todo, id_user, id_plan;
     private CardView layoutTodo;
+    private SiDao siDao;
 
-    public AdapterTodo(ArrayList<ToDo.ToDoDetail> todolist)
+    public AdapterTodo(ArrayList<ToDo.ToDoDetail> todolist, SiDao siDao)
     {
         this.todolist = todolist;
+        this.siDao = siDao;
+//        Log.wtf("tralala", String.valueOf(todolist.get(0).getId_bukti()));
+//        Log.wtf("tralala", String.valueOf(todolist.get(1).getId_bukti()));
+//        Log.wtf("tralala", String.valueOf(todolist.get(2).getId_bukti()));
     }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
@@ -62,15 +72,16 @@ public class AdapterTodo extends RecyclerView.Adapter<AdapterTodo.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.txtJudul.setText(todolist.get(position).getJudul_tugas());
         holder.txtDeskripsi.setText(todolist.get(position).getDeskripsi_tugas());
-        holder.txtTodo.setText(String.valueOf(id_todo));
-        holder.txtUser.setText(String.valueOf(id_user));
-        holder.txtToken.setText(token.toString());
-        holder.txtIDPlan.setText(String.valueOf(id_plan));
-        holder.txtIDBukti.setText(id_bukti);
-//        if(id_bukti!= "null")
-//        {
-//            layoutTodo.setCardBackgroundColor(Color.GREEN);
-//        }
+        holder.txtTodo.setText(String.valueOf(siDao.getId_todo()));
+        holder.txtUser.setText(String.valueOf(siDao.getId_user()));
+        holder.txtToken.setText(siDao.getToken());
+        holder.txtIDPlan.setText(String.valueOf(siDao.getId_plan()));
+        holder.txtIDBukti.setText(String.valueOf(todolist.get(position).getId_bukti()));
+        Log.wtf("idbukti :", String.valueOf(todolist.get(position).getId_bukti()));
+        if(todolist.get(position).getId_bukti() != 0)
+        {
+            layoutTodo.setCardBackgroundColor(Color.GREEN);
+        }
     }
 
     @Override
@@ -115,30 +126,5 @@ public class AdapterTodo extends RecyclerView.Adapter<AdapterTodo.ViewHolder> {
             i.putExtras(b);
             v.getContext().startActivity(i);
         }
-    }
-
-    public int getIDTodo(int idtodo)
-    {
-        return this.id_todo = idtodo;
-    }
-
-    public int getIDUser(int iduser)
-    {
-        return this.id_user = iduser;
-    }
-
-    public int getIDPlan(int idplan)
-    {
-        return this.id_plan = idplan;
-    }
-
-    public String getIDBukti(String idbukti)
-    {
-        return this.id_bukti = idbukti;
-    }
-
-    public String getToken(String token)
-    {
-        return this.token = token;
     }
 }

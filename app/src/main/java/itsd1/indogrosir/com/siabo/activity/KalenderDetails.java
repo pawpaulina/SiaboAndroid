@@ -18,6 +18,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -49,6 +51,7 @@ import itsd1.indogrosir.com.siabo.adapter.AdapterTodo;
 import itsd1.indogrosir.com.siabo.adapter.AdapterTugasPokok;
 import itsd1.indogrosir.com.siabo.models.EksObject;
 import itsd1.indogrosir.com.siabo.models.PlanDet;
+import itsd1.indogrosir.com.siabo.models.SiDao;
 import itsd1.indogrosir.com.siabo.models.ToDo;
 import itsd1.indogrosir.com.siabo.models.TugasPokok;
 import itsd1.indogrosir.com.siabo.rest.ApiClient;
@@ -75,6 +78,8 @@ public class KalenderDetails extends AppCompatActivity implements LocationListen
     private AdapterTugasPokok adapterTP;
     private CircleOptions circleOptions;
     private Button btnTP, btnT;
+    private SiDao siDao;
+    private AlertDialog.Builder AlertDialogBuilder;
 
     //map
     private GoogleMap mMap;
@@ -156,6 +161,58 @@ public class KalenderDetails extends AppCompatActivity implements LocationListen
         initGoogleClient();
         setMap();
         getDetailPlan();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId())
+        {
+            case R.id.map:
+                Bundle b = new Bundle();
+                b.putString("token", token);
+                b.putString("latitude", latitude);
+                b.putString("longitude", longitude);
+                b.putString("namaToko", namaToko);
+                b.putString("alamatToko", alamatToko);
+                Intent i = new Intent(getApplicationContext(), MapsActivity.class);
+                i.putExtras(b);
+                startActivity(i);
+                break;
+
+            case R.id.logout:
+                if(AlertDialogBuilder == null)
+                {
+                    AlertDialogBuilder = new AlertDialog.Builder(this);
+                }
+                AlertDialogBuilder.setTitle("Log Out");
+                AlertDialogBuilder.setMessage("Anda yakin ingin keluar?");
+                AlertDialogBuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent logout = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(logout);
+                    }
+                });
+                AlertDialogBuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                AlertDialog adialog = AlertDialogBuilder.create();
+                adialog.show();
+                break;
+
+            default:
+                break;
+        }
+        return true;
     }
 
     public void getDetailPlan() {
@@ -357,12 +414,9 @@ public class KalenderDetails extends AppCompatActivity implements LocationListen
     }
 
     void getTugas() {
-//        btnTP.setVisibility(View.GONE);
-//        btnT.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         btnT.setBackgroundColor(Color.LTGRAY);
         btnTP.setBackgroundColor(Color.WHITE);
-//        findViewById(R.id.loading_panel2).setVisibility(View.VISIBLE);
         RestApi apiService = ApiClient.getClient().create(RestApi.class);
         Call<ToDo> call = apiService.getTugas(id_user, id_plan, token);
 
@@ -371,17 +425,12 @@ public class KalenderDetails extends AppCompatActivity implements LocationListen
             public void onResponse(Call<ToDo> call, Response<ToDo> response) {
                 if (response.isSuccessful()) {
                     for (int i = 0; i < response.body().getTodo().size(); i++) {
-                        todolist = response.body().getTodo();
                         id_todo = response.body().getTodo().get(i).getId();
-                        id_bukti = response.body().getTodo().get(i).getId_bukti();
-                        adapterTodo = new AdapterTodo(todolist);
-                        adapterTodo.getIDTodo(id_todo);
-                        adapterTodo.getIDUser(id_user);
-                        adapterTodo.getToken(token);
-                        adapterTodo.getIDPlan(id_plan);
-                        adapterTodo.getIDBukti(id_bukti);
-                        recyclerView.setAdapter(adapterTodo);
+                        siDao = new SiDao(id_user, id_todo, id_plan, token);
                     }
+                    todolist = response.body().getTodo();
+                    adapterTodo = new AdapterTodo(todolist, siDao);
+                    recyclerView.setAdapter(adapterTodo);
                 }
                 else
                 {
@@ -399,12 +448,9 @@ public class KalenderDetails extends AppCompatActivity implements LocationListen
 
 
     public void getTugasPokok(){
-//        btnTP.setVisibility(View.GONE);
-//        btnT.setVisibility(View.GONE);
         btnT.setBackgroundColor(Color.WHITE);
         btnTP.setBackgroundColor(Color.LTGRAY);
         recyclerView.setVisibility(View.VISIBLE);
-//        findViewById(R.id.loading_panel2).setVisibility(View.VISIBLE);
         RestApi apiService = ApiClient.getClient().create(RestApi.class);
         Call<TugasPokok> call = apiService.getTugasPokok(id_user, id_plan, token);
 
@@ -413,16 +459,12 @@ public class KalenderDetails extends AppCompatActivity implements LocationListen
             public void onResponse(Call<TugasPokok> call, Response<TugasPokok> response) {
                 if (response.isSuccessful()) {
                     for (int i = 0; i < response.body().getTP().size(); i++) {
-                        tplist = response.body().getTP();
                         id_todo = response.body().getTP().get(i).getId();
-                        adapterTP = new AdapterTugasPokok(tplist);
-                        adapterTP.getIDTodo(id_todo);
-                        adapterTP.getIDUser(id_user);
-                        adapterTP.getToken(token);
-                        adapterTP.getIDPlan(id_plan);
-                        adapterTP.getIDBukti(id_bukti);
-                        recyclerView.setAdapter(adapterTP);
+                        siDao = new SiDao(id_user, id_todo, id_plan, token);
                     }
+                    tplist = response.body().getTP();
+                    adapterTP = new AdapterTugasPokok(tplist, siDao);
+                    recyclerView.setAdapter(adapterTP);
                 }
                 else
                 {
@@ -442,12 +484,10 @@ public class KalenderDetails extends AppCompatActivity implements LocationListen
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 mMap = googleMap;
-
                 if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
                 mMap.setMyLocationEnabled(true);
-
             }
         });
     }

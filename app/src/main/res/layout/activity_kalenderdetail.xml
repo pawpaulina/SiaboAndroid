@@ -152,9 +152,7 @@
                 android:text="Tugas Pokok"
                 android:id="@+id/btnTP"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="4dp"
-                android:layout_marginRight="135dp"
+                android:layout_centerHorizontal="true"
                 android:background="#FFFFFF"/>
 
             <Button
@@ -162,10 +160,10 @@
                 android:layout_height="wrap_content"
                 android:text="Tugas"
                 android:id="@+id/btnT"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="48dp"
-                android:layout_marginRight="150dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/btnTP"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
                 android:padding="10dp"
                 android:background="#FFFFFF"/>
 
